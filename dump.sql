@@ -21,7 +21,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: sessions; Type: TABLE; Schema: public; Owner: postgres
+-- Name: sessions; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.sessions (
@@ -34,10 +34,8 @@ CREATE TABLE public.sessions (
 );
 
 
-ALTER TABLE public.sessions OWNER TO postgres;
-
 --
--- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.sessions_id_seq
@@ -49,17 +47,15 @@ CREATE SEQUENCE public.sessions_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.sessions_id_seq OWNER TO postgres;
-
 --
--- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
 
 
 --
--- Name: urls; Type: TABLE; Schema: public; Owner: postgres
+-- Name: urls; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.urls (
@@ -72,10 +68,8 @@ CREATE TABLE public.urls (
 );
 
 
-ALTER TABLE public.urls OWNER TO postgres;
-
 --
--- Name: urls_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: urls_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.urls_id_seq
@@ -87,17 +81,15 @@ CREATE SEQUENCE public.urls_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.urls_id_seq OWNER TO postgres;
-
 --
--- Name: urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.urls_id_seq OWNED BY public.urls.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: postgres
+-- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.users (
@@ -108,10 +100,8 @@ CREATE TABLE public.users (
 );
 
 
-ALTER TABLE public.users OWNER TO postgres;
-
 --
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 CREATE SEQUENCE public.users_id_seq
@@ -123,88 +113,80 @@ CREATE SEQUENCE public.users_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.users_id_seq OWNER TO postgres;
-
 --
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
 ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- Name: sessions id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: sessions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
 
 
 --
--- Name: urls id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: urls id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.urls ALTER COLUMN id SET DEFAULT nextval('public.urls_id_seq'::regclass);
 
 
 --
--- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
--- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.sessions (id, user_id, token, created_at, finished_at, active) FROM stdin;
-\.
 
 
 --
--- Data for Name: urls; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: urls; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.urls (id, user_id, short_url, url, visit_count, created_at) FROM stdin;
-\.
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.users (id, name, email, password) FROM stdin;
-1	brenda	brenda@driven.com.br	$2b$10$Ro4pWYizWHomI9vB879RbuGF34U4n4gsI00tF8Itxy58mKwN3.gtu
-2	joao	joao@driven.com.br	$2b$10$bL0eBQo63Q5b.O1XjORZe.U2un5lWUtgOO.uhuGeOfM88q/gp.SIK
-3	maria	maria@driven.com.br	$2b$10$oIEQNQP9pOtyvFF0siaOfOROvCGX0Gh53rs8RSgxFuZsgrigO59.W
-4	petruska	petruska@driven.com.br	$2b$10$EknlkgLqTEo4dO..twNYUu8CEjrFjR8hkx/W3kFe3psWaMEG4r.oW
-5	lili	lili@driven.com.br	$2b$10$WiKhrlJ1gRkgdsrGNbTrhuMasVQLldXTTQD3k.74Il2H6s67OgVYu
-\.
+INSERT INTO public.users VALUES (1, 'brenda', 'brenda@driven.com.br', '$2b$10$Ro4pWYizWHomI9vB879RbuGF34U4n4gsI00tF8Itxy58mKwN3.gtu');
+INSERT INTO public.users VALUES (2, 'joao', 'joao@driven.com.br', '$2b$10$bL0eBQo63Q5b.O1XjORZe.U2un5lWUtgOO.uhuGeOfM88q/gp.SIK');
+INSERT INTO public.users VALUES (3, 'maria', 'maria@driven.com.br', '$2b$10$oIEQNQP9pOtyvFF0siaOfOROvCGX0Gh53rs8RSgxFuZsgrigO59.W');
+INSERT INTO public.users VALUES (4, 'petruska', 'petruska@driven.com.br', '$2b$10$EknlkgLqTEo4dO..twNYUu8CEjrFjR8hkx/W3kFe3psWaMEG4r.oW');
+INSERT INTO public.users VALUES (5, 'lili', 'lili@driven.com.br', '$2b$10$WiKhrlJ1gRkgdsrGNbTrhuMasVQLldXTTQD3k.74Il2H6s67OgVYu');
 
 
 --
--- Name: sessions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: sessions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.sessions_id_seq', 1, false);
 
 
 --
--- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.urls_id_seq', 1, false);
 
 
 --
--- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.users_id_seq', 5, true);
 
 
 --
--- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.sessions
@@ -212,7 +194,7 @@ ALTER TABLE ONLY public.sessions
 
 
 --
--- Name: urls urls_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: urls urls_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.urls
@@ -220,7 +202,7 @@ ALTER TABLE ONLY public.urls
 
 
 --
--- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -228,7 +210,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: users users_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users users_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -236,7 +218,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
@@ -244,7 +226,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: sessions sessions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: sessions sessions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.sessions
@@ -252,7 +234,7 @@ ALTER TABLE ONLY public.sessions
 
 
 --
--- Name: urls urls_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: urls urls_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.urls
