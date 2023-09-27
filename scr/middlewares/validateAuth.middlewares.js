@@ -8,9 +8,9 @@ export default async function validateAuth(req, res, next){
 
     try{    
         const session = await db.query(`SELECT * FROM sessions WHERE token=$1 AND active = true;`,[token]);
-        if(!session) return res.sendStatus(401);
+        if(session.rows.length === 0) return res.sendStatus(401);
         
-        res.locals.session = session;
+        res.locals.session = session.rows[0];
         next();
     }
     catch (err){ 
