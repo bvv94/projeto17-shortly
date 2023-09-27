@@ -29,14 +29,14 @@ export async function sign_in(req, res){
 
     try{
         const user = await db.query(`SELECT * FROM users WHERE email=$1;`, [email]);
-        if (user.rows.length == 0) return res.status(404).send("Email não cadastrado");
+        if (user.rows.length == 0) return res.status(401).send("Usuário/senha inválidos");
 
         const isPasswordCorrect = bcrypt.compareSync(password, user.rows[0].password);
         if (!isPasswordCorrect) return res.status(401).send("Usuário/senha inválidos");
 
         const token = uuid()
 
-        res.status(200).send(token);
+        res.status(200).send({ "token": token });
     }
     catch (err){
         res.status(500).send(err.message);
