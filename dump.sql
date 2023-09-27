@@ -96,7 +96,8 @@ CREATE TABLE public.users (
     id integer NOT NULL,
     name character varying(50) NOT NULL,
     email text NOT NULL,
-    password text NOT NULL
+    password text NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL
 );
 
 
@@ -157,11 +158,6 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.users VALUES (1, 'brenda', 'brenda@driven.com.br', '$2b$10$Ro4pWYizWHomI9vB879RbuGF34U4n4gsI00tF8Itxy58mKwN3.gtu');
-INSERT INTO public.users VALUES (2, 'joao', 'joao@driven.com.br', '$2b$10$bL0eBQo63Q5b.O1XjORZe.U2un5lWUtgOO.uhuGeOfM88q/gp.SIK');
-INSERT INTO public.users VALUES (3, 'maria', 'maria@driven.com.br', '$2b$10$oIEQNQP9pOtyvFF0siaOfOROvCGX0Gh53rs8RSgxFuZsgrigO59.W');
-INSERT INTO public.users VALUES (4, 'petruska', 'petruska@driven.com.br', '$2b$10$EknlkgLqTEo4dO..twNYUu8CEjrFjR8hkx/W3kFe3psWaMEG4r.oW');
-INSERT INTO public.users VALUES (5, 'lili', 'lili@driven.com.br', '$2b$10$WiKhrlJ1gRkgdsrGNbTrhuMasVQLldXTTQD3k.74Il2H6s67OgVYu');
 
 
 --
@@ -182,7 +178,7 @@ SELECT pg_catalog.setval('public.urls_id_seq', 1, false);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 5, true);
+SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 
 --
