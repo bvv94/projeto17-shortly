@@ -5,8 +5,8 @@ import { db } from "../database/database.connection.js";
 export async function sign_up(req, res){
     const {name, email, password, confirmPassword} = req.body;
 
-    if (password !== confirmPassword) return res.status(401).send("Senhas não são iguais!!!")
-    // talvez aqui o status deva ser 422
+    if (password !== confirmPassword) return res.status(422).send("Senhas não são iguais!!!")
+
     try{
         const exists = await db.query(`SELECT * FROM users WHERE email=$1;`, [email]);
 
