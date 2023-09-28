@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import { db } from "../database/database.connection.js";
 import { v4 as uuidv4 } from "uuid";
+
 export async function shorten(req, res) {
     const { url } = req.body;
     const { user_id } = res.locals.session;
@@ -15,6 +16,25 @@ export async function shorten(req, res) {
         console.log(save)
         const result = save.rows[0].short_url;
         res.status(201).send(result)
+    }
+    catch (err) {
+        res.status(500).send(err.message);
+    }
+}
+
+export async function getUrls(req, res) {
+
+    const {id} = req.params
+
+    try {
+        const urls = await db.query(`SELECT (id, short_url, url) FROM urls WHERE id=$1;`, [id]);
+        console.log(url);
+
+        const {id, shortUrl, url} = urls.rows[0];
+
+        const formatted = {...formatted, id, shortUrl, url}
+
+        res.status(200).send(formatted)
     }
     catch (err) {
         res.status(500).send(err.message);
