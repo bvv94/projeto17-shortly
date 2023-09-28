@@ -2,15 +2,15 @@ import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
 import { db } from "../database/database.connection.js";
 
-export async function sign_up(req, res){
-    const {name, email, password, confirmPassword} = req.body;
+export async function sign_up(req, res) {
+    const { name, email, password, confirmPassword } = req.body;
 
     if (password !== confirmPassword) return res.status(422).send("Senhas não são iguais!!!")
 
-    try{
+    try {
         const exists = await db.query(`SELECT * FROM users WHERE email=$1;`, [email]);
 
-        if(exists && (exists.rowCount !== 0)){
+        if (exists && (exists.rowCount !== 0)) {
             return res.status(409).send("email já cadastrado!")
         }
         const hash = bcrypt.hashSync(password, 10);
@@ -19,15 +19,15 @@ export async function sign_up(req, res){
 
         return res.sendStatus(201);
     }
-    catch (err){
+    catch (err) {
         res.status(500).send(err.message);
     }
 }
 
-export async function sign_in(req, res){
-    const {email, password} = req.body;
+export async function sign_in(req, res) {
+    const { email, password } = req.body;
 
-    try{
+    try {
         const user = await db.query(`SELECT * FROM users WHERE email=$1;`, [email]);
         if (user.rows.length == 0) return res.status(401).send("Usuário/senha inválidos");
 
@@ -36,22 +36,24 @@ export async function sign_in(req, res){
 
         const token = uuid()
 
+        await db.query(`INSERT INTO sessions (user_id, token) VALUES ($1, $2);`, [ user.rows[0].id, token]);
+
         res.status(200).send({ "token": token });
     }
-    catch (err){
+    catch (err) {
         res.status(500).send(err.message);
     }
 }
 
-export async function sign_out(req, res){
-    
-    const {id} = res.locals.session;
+export async function sign_out(req, res) {
 
-    try{    
+    const { id } = res.locals.session;
+
+    try {
         await db.query(`UPDATE sessions SET active = false WHERE id = $1;`, [id]);
         return res.sendStatus(200);
     }
-    catch (err){ 
+    catch (err) {
         res.status(500).send(err.message);
     }
 }

@@ -29,7 +29,7 @@ CREATE TABLE public.sessions (
     user_id integer,
     token text NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
-    finished_at timestamp without time zone DEFAULT now() NOT NULL,
+    finished_at timestamp without time zone,
     active boolean DEFAULT true
 );
 
@@ -158,6 +158,8 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.users VALUES (1, 'lili', 'lili@driven.com.br', '$2b$10$L8NdXeW1KEKzuQLNXuEqbu2HreXkE2NlUiHgiuA2sKDFWg7QfaBwi', '2023-09-28 13:36:16.173774');
+INSERT INTO public.users VALUES (2, 'brenda', 'brenda@driven.com.br', '$2b$10$D0P81s8b.kWFeVeAdlE1KOV5MxOj2UfowELXPkKNhOvpzgFrUJd6y', '2023-09-28 13:36:31.80506');
 
 
 --
@@ -178,7 +180,7 @@ SELECT pg_catalog.setval('public.urls_id_seq', 1, false);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 1, false);
+SELECT pg_catalog.setval('public.users_id_seq', 2, true);
 
 
 --
