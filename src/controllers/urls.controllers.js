@@ -26,6 +26,9 @@ export async function getUrls(req, res) {
 
     const {id} = req.params
 
+    const exists = await db.query(`SELECT * FROM urls WHERE id=$1;`, [id])
+    if(!exists) return res.status(404).send("Id não existe!");
+
     try {
         const urls = await db.query(`SELECT (id, short_url, url) FROM urls WHERE id=$1;`, [id]);
         console.log(url);
