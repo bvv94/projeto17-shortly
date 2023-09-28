@@ -5,8 +5,9 @@ export async function shorten(req, res) {
     const { url } = req.body;
     const { user_id } = res.locals.session;
 
-    // const shortUrl = nanoid(8);
-    const shortUrl = uuidv4();
+    const shortUrl = nanoid(8);
+    console.log(shortUrl);
+    // const shortUrl = uuidv4();
     try {
         const save = await db.query(`INSERT INTO urls (user_id, short_url, url)
                         VALUES ($1, $2, $3) RETURNING (id, short_url);`, [user_id, shortUrl, url]);
