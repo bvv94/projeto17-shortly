@@ -42,7 +42,7 @@ export async function getUrls(req, res) {
 
     try {
         const result = await db.query(`SELECT id, short_url, url FROM urls WHERE id=$1;`, [id]);
-        
+
         const { id: urlId, short_url, url } = result.rows[0];
 
         const formatted = { id: urlId, short_url, url }
@@ -54,24 +54,19 @@ export async function getUrls(req, res) {
     }
 }
 
-export async function openShortUrl(req, res) {
+export async function openShortURL(req, res) {
     const { shortUrl } = req.params;
 
     // - Redirecionar o usuário para o link correspondente.
     // - Aumentar um na contagem de visitas do link.
     // - Caso a url encurtada não exista, responder com *status code* `404`.
-
-    const file = db.query(`SELECT * FROM urls WHERE short_url = $1;`, [shortUrl]);
-    if (!file.rows.length) return res.status(404).send("URL não encontrada");
-
-    let count = file.rows[0].visit_count + 1;
-
     try {
-        await db.query(`UPDATE urls SET visit_count = $1 WHERE short_url = $2;`, [count, shortUrl]);
-        res.redirect(file.rows[0].url);
+        const result = await db.query(`SELECT * FROM urls WHERE short_url = $1;`, [shortUrl]);
+        if (result.rows.length === 0) return res.status(404).send("URL não encontrada");
 
-        // res.writeHead(301, { Location: file.rows[0].url });
-        // res.end();
+        let count = result.rows[0].visit_count + 1;
+        await db.query(`UPDATE urls SET visit_count = $1 WHERE short_url = $2;`, [count, shortUrl]);
+        res.redirect(result.rows[0].url);
     }
     catch (err) {
         res.status(500).send(err.message);
