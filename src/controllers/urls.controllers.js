@@ -35,18 +35,17 @@ export async function shorten(req, res) {
 
 export async function getUrls(req, res) {
 
-    const { id } = req.params
+    const { id } = req.params;
 
     const exists = await db.query(`SELECT * FROM urls WHERE id=$1;`, [id])
-    if (!exists.rows.length) return res.status(404).send("URL não encontrada");
+    if (exists.rows.length === 0) return res.status(404).send("URL não encontrada");
 
     try {
-        const urls = await db.query(`SELECT (id, short_url, url) FROM urls WHERE id=$1;`, [id]);
-        console.log(urls);
+        const result = await db.query(`SELECT id, short_url, url FROM urls WHERE id=$1;`, [id]);
+        
+        const { id: urlId, short_url, url } = result.rows[0];
 
-        const { id, short_url, url } = urls.rows[0];
-
-        const formatted = { id, short_url, url }
+        const formatted = { id: urlId, short_url, url }
 
         res.status(200).send(formatted)
     }
