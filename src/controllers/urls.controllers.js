@@ -40,7 +40,7 @@ export async function getUrls(req, res) {
     try {
         const exists = await db.query(`SELECT * FROM urls WHERE id=$1;`, [id])
         if (exists.rows.length === 0) return res.status(404).send("URL não encontrada");
-        
+
         const result = await db.query(`SELECT id, short_url, url FROM urls WHERE id=$1;`, [id]);
         const { id: urlId, short_url, url } = result.rows[0];
 
@@ -68,12 +68,17 @@ export async function openShortURL(req, res) {
     }
 }
 
-export async function deleteURL(req, res){
+export async function deleteURL(req, res) {
     const { user_id } = res.locals.session;
-    const {url_id: id} = req.params;
-    
-    try{
-    
+    const { id } = req.params;
+
+    try {
+        const belongs = await db.query(`SELECT *  FROM urls WHERE user_id = $1 AND id = $2;`, [user_id, id]);
+        if (belongs.rows.length === 0) return res.status(401).send("Url não pertence a esse usuário!");
+
+        await db.query(`DELETE FROM urls WHERE id = $1;`, [id]);
+
+        res.sendStatus(204);
     }
     catch (err) {
         res.status(500).send(err.message);

@@ -6,7 +6,7 @@ const urlRouter = Router();
 
 urlRouter.post("/urls/shorten", validateAuth, shorten);
 urlRouter.get("/urls/:id", getUrls);
-urlRouter.get("/urls/open/:shortUrl", openShortURL)
-urlRouter.delete("/urls/:id", validateAuth, deleteURL)
+urlRouter.get("/urls/open/:shortUrl", openShortURL);
+urlRouter.delete("/urls/:id", validateAuth, deleteURL);
 
 export default urlRouter;
