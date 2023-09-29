@@ -76,6 +76,9 @@ export async function deleteURL(req, res) {
         const belongs = await db.query(`SELECT *  FROM urls WHERE user_id = $1 AND id = $2;`, [user_id, id]);
         if (belongs.rows.length === 0) return res.status(401).send("Url não pertence a esse usuário!");
 
+        const existingId = await db.query(`SELECT *  FROM urls WHERE id = $1;`, [id]);
+        if (existingId.rows.length === 0) return res.status(404).send("Url não existe!");
+
         await db.query(`DELETE FROM urls WHERE id = $1;`, [id]);
 
         res.sendStatus(204);
