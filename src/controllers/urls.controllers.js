@@ -45,7 +45,7 @@ export async function getUrls(req, res) {
 
         const { id: urlId, short_url, url } = result.rows[0];
 
-        const formatted = { id: urlId, short_url, url }
+        const formatted = { id: urlId, shortUrl:short_url, url }
 
         res.status(200).send(formatted)
     }
@@ -56,10 +56,7 @@ export async function getUrls(req, res) {
 
 export async function openShortURL(req, res) {
     const { shortUrl } = req.params;
-
-    // - Redirecionar o usuário para o link correspondente.
-    // - Aumentar um na contagem de visitas do link.
-    // - Caso a url encurtada não exista, responder com *status code* `404`.
+    
     try {
         const result = await db.query(`SELECT * FROM urls WHERE short_url = $1;`, [shortUrl]);
         if (result.rows.length === 0) return res.status(404).send("URL não encontrada");
