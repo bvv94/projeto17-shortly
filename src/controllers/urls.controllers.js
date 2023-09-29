@@ -1,20 +1,31 @@
 import { nanoid } from "nanoid";
 import { db } from "../database/database.connection.js";
-import { v4 as uuidv4 } from "uuid";
+import joi from "joi";
 
 export async function shorten(req, res) {
     const { url } = req.body;
     const { user_id } = res.locals.session;
 
+    //----Validação de URL válida-----//
+    const schema = joi.object({
+        url: joi.string().uri().required()
+    });
+    const { error } = schema.validate(req.body);
+
+    if (error) {
+        return res.status(422).send(error.details[0].message);
+    }
+    //----Fim da validação de URL válida-----//
+
     const shortUrl = nanoid(8);
-    console.log(shortUrl);
-    // const shortUrl = uuidv4();
+
     try {
         const save = await db.query(`INSERT INTO urls (user_id, short_url, url)
-                        VALUES ($1, $2, $3) RETURNING (id, short_url);`, [user_id, shortUrl, url]);
+                        VALUES ($1, $2, $3) RETURNING id, short_url;`, [user_id, shortUrl, url]);
+        const info = save.rows[0];
 
-        console.log(save)
-        const result = save.rows[0].short_url;
+        const result = { id: info.id, shortUrl: info.short_url }
+
         res.status(201).send(result)
     }
     catch (err) {
@@ -46,17 +57,17 @@ export async function getUrls(req, res) {
 
 export async function openShortUrl(req, res) {
     const { shortUrl } = req.params;
-    
+
     // - Redirecionar o usuário para o link correspondente.
     // - Aumentar um na contagem de visitas do link.
     // - Caso a url encurtada não exista, responder com *status code* `404`.
-    
+
     const file = db.query(`SELECT * FROM urls WHERE short_url = $1;`, [shortUrl]);
     if (!file.rows.length) return res.status(404).send("URL não encontrada");
 
     let count = file.rows[0].visit_count + 1;
-    
-    try {        
+
+    try {
         await db.query(`UPDATE urls SET visit_count = $1 WHERE short_url = $2;`, [count, shortUrl]);
         res.redirect(file.rows[0].url);
 

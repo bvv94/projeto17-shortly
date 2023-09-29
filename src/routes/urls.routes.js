@@ -4,7 +4,7 @@ import { getUrls, openShortUrl, shorten } from "../controllers/urls.controllers.
 
 const urlRouter = Router();
 
-urlRouter.post("/urls/shorten", validateAuth, shorten);
+urlRouter.post("/urls/shorten", validateAuth,  shorten);
 urlRouter.get("/urls/:id", validateAuth, getUrls);
 urlRouter.get ("/urls/open/:shortUrl", openShortUrl)
 urlRouter.delete("/urls/:id")
