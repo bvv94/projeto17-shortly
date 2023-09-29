@@ -37,16 +37,14 @@ export async function getUrls(req, res) {
 
     const { id } = req.params;
 
-    const exists = await db.query(`SELECT * FROM urls WHERE id=$1;`, [id])
-    if (exists.rows.length === 0) return res.status(404).send("URL não encontrada");
-
     try {
+        const exists = await db.query(`SELECT * FROM urls WHERE id=$1;`, [id])
+        if (exists.rows.length === 0) return res.status(404).send("URL não encontrada");
+        
         const result = await db.query(`SELECT id, short_url, url FROM urls WHERE id=$1;`, [id]);
-
         const { id: urlId, short_url, url } = result.rows[0];
 
-        const formatted = { id: urlId, shortUrl:short_url, url }
-
+        const formatted = { id: urlId, shortUrl: short_url, url }
         res.status(200).send(formatted)
     }
     catch (err) {
@@ -56,7 +54,7 @@ export async function getUrls(req, res) {
 
 export async function openShortURL(req, res) {
     const { shortUrl } = req.params;
-    
+
     try {
         const result = await db.query(`SELECT * FROM urls WHERE short_url = $1;`, [shortUrl]);
         if (result.rows.length === 0) return res.status(404).send("URL não encontrada");
@@ -68,4 +66,17 @@ export async function openShortURL(req, res) {
     catch (err) {
         res.status(500).send(err.message);
     }
+}
+
+export async function deleteURL(req, res){
+    const { user_id } = res.locals.session;
+    const {url_id: id} = req.params;
+    
+    try{
+    
+    }
+    catch (err) {
+        res.status(500).send(err.message);
+    }
+
 }
